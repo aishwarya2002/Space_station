@@ -1,0 +1,62 @@
+CREATE TABLE station
+(
+	sid varchar(10),
+	sname varchar(20),
+	date varchar(20),
+	PRIMARY KEY(sid)
+);
+
+CREATE TABLE crew
+(
+    cid varchar(10),
+    cname varchar(20),
+    gender char(10),
+    age int,
+    sid varchar(10),
+    PRIMARY KEY(cid),
+    FOREIGN KEY(sid) references station(sid) ON DELETE CASCADE
+    );
+
+CREATE TABLE comp
+(
+    co_id varchar(10),
+    co_name varchar(20),
+    cost varchar(10),
+    sid varchar(10),
+    PRIMARY KEY(co_id),
+    FOREIGN KEY(sid) references station(sid) ON DELETE CASCADE
+    );
+
+CREATE TABLE base
+(
+    bid varchar(10),
+    bname varchar(20),
+    location char(20),
+    sid varchar(10),
+    PRIMARY KEY(bid),
+    FOREIGN KEY(sid) references station(sid) ON DELETE CASCADE
+    );
+
+CREATE TABLE provide
+(
+    bid varchar(10),
+    co_id varchar(10),
+    date varchar(20),
+    no_of_comp int,
+    PRIMARY KEY(bid,co_id),
+    FOREIGN KEY(bid) references base(bid) ON DELETE CASCADE,
+    FOREIGN KEY(co_id) references comp(co_id) ON DELETE CASCADE
+    
+    );
+
+delimiter //
+create trigger age_verify
+before insert on crew
+for each row 
+if new.age < 0 then set new.age = 0;
+end if; //
+
+
+users
+user_name
+password
